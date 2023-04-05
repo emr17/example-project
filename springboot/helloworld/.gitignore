@@ -1,0 +1,35 @@
+
+# Java class files
+*.class
+**/target/
+**/.flattened-pom.xml
+.flattened-pom.xml
+
+# JRebel File
+rebel.xml
+**/rebel.xml
+
+# Log Files
+*.log
+**/*.log
+
+# Intellij
+*.iml
+**/*.iml
+
+# Keystore files
+#*.jks
+#gradle wrapper
+gradle/
+
+#some local files
+**/.settings/
+**/.DS_Store
+.DS_Store
+**/.idea/
+.idea/
+/web/*.iml
+
+node_modules
+.git
+logs/
