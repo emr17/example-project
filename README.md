@@ -78,19 +78,6 @@ We write the code that we want to run after the execute method in the PutProduct
 
 ```
 
-#### Example usage of @AfterReturning advice:
-Here, unlike in the after advice, we can also obtain the object returned by the listened method. We add the returning value as the second parameter inside the advice. Additionally, we add a parameter for the object to be returned outside of the Joinpoint inside the method.
-
-We write the code that we want to run after the execute method in the PutProductWorker class inside the method.
-```
-    @AfterReturning(value = "execution(* com.example.helloworld.worker.PutProductWorker.execute(..))", returning = "taskResult")
-    public void afterReturningMethod(JoinPoint joinPoint, TaskResult taskResult) {
-        System.out.println("The method is completed. Returned: " + taskResult.toString());
-        System.out.println(joinPoint.getSignature());
-    }
-    }
-
-```
 
 #### Example usage of @Around advice:
 Thanks to the Around advice, we can perform operations before the listened method is executed, perform checks with these operations to prevent the listened method from continuing to work, and obtain the object returned by the listened method if the listened method continues to work.
