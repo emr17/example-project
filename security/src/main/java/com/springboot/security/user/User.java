@@ -1,5 +1,6 @@
 package com.springboot.security.user;
 
+import com.springboot.security.token.Token;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,6 +35,9 @@ public class User implements UserDetails {
     // defaultu ordinal. ordinal 0 1 gösteriyor biz string istiyoruz
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToMany
+    private List<Token> tokens;
 
     @Override
     public Collection<? extends GrantedAuthority>  getAuthorities() {
