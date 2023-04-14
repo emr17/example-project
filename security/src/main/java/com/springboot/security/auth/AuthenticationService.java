@@ -67,7 +67,6 @@ public class AuthenticationService {
                 .user(user)
                 .token(jwtToken)
                 .tokenType(TokenType.BEARER)
-                .expired(false)
                 .revoked(false)
                 .build();
         tokenRepository.save(token);
@@ -78,7 +77,6 @@ public class AuthenticationService {
         if (validUserTokens.isEmpty())
             return;
         validUserTokens.forEach(token -> {
-            token.setExpired(true);
             token.setRevoked(true);
         });
         tokenRepository.saveAll(validUserTokens);
