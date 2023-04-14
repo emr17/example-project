@@ -52,36 +52,40 @@ Required dependencies:
 		</dependency>
 ```
 
-Glossary
+## Glossary
 
-JWT : İnternet üzerinde kullanıcıların kimlik doğrulamasını sağlamak için kullanılan bir veri formatıdır. JWT'ler, veri transferi sırasında doğrulama bilgilerini (örneğin kullanıcı adı, şifre vb.) taşımak için kullanılır.JWT, 3 bölümden oluşur: header, payload ve signature. Header, tokenın tipini ve kullanılan algoritmayı belirtir. Payload, kullanıcının kimlik doğrulaması için gereken verileri içerir. Signature ise, tokenın doğruluğunu doğrulamak için kullanılan bir anahtar ile imzalanmıştır.
+JWT: A data format used to provide authentication for users over the internet. JWTs are used to carry authentication credentials (e.g., username, password, etc.) during data transfer. JWT consists of 3 parts: header, payload, and signature. The header specifies the type of token and the algorithm used. The payload contains the data required for user authentication. The signature is signed with a key used to verify the token's validity.
 
-Authentication : Uygulamaya erişmek isteyen kullanıcının bilgilerinin kontrol edilmesi işlemidir.
+Authentication: The process of checking the user's information who wants to access the application.
 
-Authorization : Authentication işleminin başarılı olması durumunda, kullanıcıya ait authoritiy(rol)'lerin kontrol edilerek erişmek istediği endpointe izin verilip verilmemesi işlemidir.
+Authorization: If the authentication process is successful, the process of checking the user's authorities (roles) and granting or denying access to the requested endpoint.
 
-Claim : JWT'nin payload kısmında bulunan parametrelerdir. Token oluşturulurken subject , exp (expiration date) gibi claimler dışında istenilen extra claimler de eklenebilir.
+Claim: Parameters found in the payload part of JWT. When creating a token, in addition to claims like subject and exp (expiration date), extra claims can also be added if desired.
 
-Spring Security'nin kimlik doğrulama sürecinde kullanıcı bilgilerine ihtiyacı vardır. Bu bilgileri sağlamak ve yönetmek için UserDetails ve UserDetailsService arayüzlerini kullanır. Bu sayede, kimlik doğrulama sürecini uygulamanızın kullanıcı modeline ve depolama yöntemine göre özelleştirebilirsiniz.
+Spring Security needs user information during the authentication process. It uses the UserDetails and UserDetailsService interfaces to provide and manage this information. In this way, you can customize the authentication process according to your application's user model and storage method.
 
-UserDetails: Bu, Spring Security tarafından kullanılan bir kullanıcı temsilidir. Kullanıcının kimlik doğrulama sürecindeki temel bilgilerini içerir, özellikle kullanıcı adı, şifre ve yetkilendirmeler (roller ve yetkiler) gibi bilgileri sağlar.
+UserDetails: This is a user representation used by Spring Security. It contains the basic information about the user during the authentication process, particularly providing information such as username, password, and authorizations (roles and permissions).
 
-UserDetailsService:  Bu, kullanıcı detaylarını yüklemek için kullanılan bir servistir. loadUserByUsername adında tek bir metod içerir ve bu metod kullanıcı adına göre UserDetails nesnesi döndürür. Bu servis, kullanıcıları veritabanından veya harici bir kaynaktan yüklemek için kullanılabilir.
+UserDetailsService: This is a service used to load user details. It contains a single method called loadUserByUsername, which returns a UserDetails object based on the username. This service can be used to load users from a database or an external source.
 
-Responsibility Chain Pattern : Bir dizi nesnenin birbirleri arasında işlemleri veya istekleri yönlendirdiği ve gerçekleştirdiği bir yapı sağlayan design patterndir. Spring Security, bu patterni kullanarak güvenlik filtrelerini yönetir.
+Responsibility Chain Pattern: A design pattern that provides a structure where a series of objects direct and perform operations or requests among themselves. Spring Security manages security filters using this pattern.
 
-Spring Security filter chain: İstek işleme sırasında çalışan bir dizi filtre içerir. İstek, filtrelerin her birine sırayla iletilir ve her filtre, özelleştirilmiş bir işlem gerçekleştirir. İşlem tamamlandığında, istek zincirdeki bir sonraki filtreye geçer.
+Spring Security filter chain: Contains a series of filters that run during request processing. The request is passed to each filter in turn, and each filter performs a customized operation. When the operation is complete, the request moves to the next filter in the chain.
 
-Basic Authentication: Kullanıcının username, passsword bilgileri ile authentication ve authorization işlemlerinin yapılmasıdır. Burada token kullanılmaz her istekte username , password bilgisi olmalıdır. Ek bir bir filtreye ihtiyaç duyulmaz spring security filter chaindeki default filtreler yeterlidir.
+Basic Authentication: Performing authentication and authorization operations with user username and password information. In this case, a token is not used, and every request must contain the username and password information. No additional filter is needed; the default filters in the Spring Security filter chain are sufficient.
 
-SecurityContext : Threadlocal  bir nesnedir. Bir thread sadece kendi set ettiği değeri okuyabilir. Authentication işleminin başarılı olması durumunda, kullanıcı ya ait bilgiler ile güncellenir. İstek bittiği zaman temizlenir.
+SecurityContext: A thread-local object. A thread can only read the value it sets. If the authentication process is successful, it is updated with the user's information. It is cleared when the request is completed.
 
-JwtAuthenticationFilter : Jwt uygulamak için security filter chain' e eklediğimiz filtre. Bu filtrede token'ın kontrolü, token'daki subjecte göre kontroller yapılır ve başarılı olması durumunda kullanıcı bilgileri SecurityContext' e işlenir. Bu filtre security filter chain' e eklenir ve login , register gibi izin verilmiş endpointler dışında diğer tüm isteklerde çalışır.
+JwtAuthenticationFilter: The filter we add to the security filter chain to implement JWT. In this filter, the token is checked, controls are made according to the subject in the token, and if successful, the user information is processed in the SecurityContext. This filter is added to the security filter chain and runs on all requests except allowed endpoints such as login and register.
 
-UsernamePasswordAuthenticationToken: Spring Security'de kullanılan temel kimlik doğrulama nesnesidir. Bu sınıf, kullanıcı adı ve şifre bilgilerini içeren bir kimlik doğrulama nesnesi oluşturmak için kullanılır.
+UsernamePasswordAuthenticationToken: A basic authentication object used in Spring Security. This class is used to create an authentication object containing the username and password information. It is also added to the SecurityContext after the authentication processes.
 
+The main properties of the UsernamePasswordAuthenticationToken class are:
 
+Username (principal): A unique value identifying the user, typically a value such as a username or email address. We can set user object as a principal too.
+Password (credentials): The user's password. The password is checked during the authentication process.
+Authorities (authorities): A collection of GrantedAuthority objects representing the user's authorities. Authorities determine the features and capabilities that users can access within the application.
+Logout Handler: An interface where the operations to be performed during logout in Spring Security are located. By implementing this interface in a custom class, you can set the operations to be performed during logout.
 
-
-
+Revoked: A boolean value indicating whether the token stored in the database has been canceled or not. When a user logs in, if they have a token in the database that is not revoked, the revoked value is set to true. Also, when a user logs out, if they have a non-revoked token in the database, the revoked value is set to true.
 
