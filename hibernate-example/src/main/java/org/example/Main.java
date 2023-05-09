@@ -7,6 +7,8 @@ import org.example.entities.Teacher;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import javax.transaction.Transactional;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -24,11 +26,12 @@ public class Main {
         student.getCourses().add(course1);
         student.getCourses().add(course2);
 
+
         // Save the student to the database
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             try {
-                session.save(student);
+                session.persist(student);
                 transaction.commit();
             } catch (Exception e) {
                 transaction.rollback();
@@ -48,7 +51,7 @@ public class Main {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             try {
-                session.update(student);
+                session.merge(student);
                 transaction.commit();
             } catch (Exception e) {
                 transaction.rollback();
@@ -60,7 +63,7 @@ public class Main {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             try {
-                session.delete(student);
+                session.remove(student);
                 transaction.commit();
             } catch (Exception e) {
                 transaction.rollback();
