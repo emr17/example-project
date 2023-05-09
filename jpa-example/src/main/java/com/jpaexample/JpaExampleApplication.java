@@ -1,6 +1,7 @@
 package com.jpaexample;
 
 import com.jpaexample.repo.CourseRepository;
+import com.jpaexample.repo.CourseSpringDataRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ public class JpaExampleApplication implements CommandLineRunner {
 	@Autowired
 	private CourseRepository repository;
 
+	@Autowired
+	private CourseSpringDataRepository courseSpringDataRepository;
+
 	public static void main(String[] args) {
 		SpringApplication.run(JpaExampleApplication.class, args);
 	}
@@ -24,6 +28,12 @@ public class JpaExampleApplication implements CommandLineRunner {
 	@Override
 	public void run(String... arg0) throws Exception {
 		//repository.playWithEntityManager();
+		//courseSpringDataRepository.findByName("Math");
+		//courseSpringDataRepository.courseWithMathInNameUsingNativeQuery();
+		//courseSpringDataRepository.deleteByName("Math");
+
+
+
 	}
 
 }
