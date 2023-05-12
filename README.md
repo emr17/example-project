@@ -7,3 +7,7 @@
 [Spring Dependency Injection](docs%2FDI.md)
 
 [Spring Security](docs%2FSecurity.md)
+
+[Spring Data Jpa.md](docs%2FJpa.md)
+
+[Spring Cloud OpenFeign.md](docs%2FSprinf-Cloud-OpenFeign.md)
