@@ -1,6 +1,7 @@
 package com.springboot.security.demo;
 
 
+import com.springboot.security.user.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,7 +19,7 @@ public class DemoController {
     public ResponseEntity<?> demo(){
 
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return  ResponseEntity.ok(userDetails.getUsername());
+        return  ResponseEntity.ok(UserResponse.builder().email(userDetails.getUsername()).build());
     }
 
     @GetMapping("/admin")
